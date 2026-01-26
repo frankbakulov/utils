@@ -1,1 +1,0 @@
-export interface Tquery extends Record<string, any> { }

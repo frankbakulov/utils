@@ -118,6 +118,8 @@ export function eq(v1, v2) {
 */
 export function objectDifferentKeys(o1, o2) {
 	var r = [];
+	o1 ||= {};
+	o2 ||= {};
 	for (var [k1, v1] of Object.entries(o1)) {
 		v1 === o2[k1] || r.push(k1);
 	}
@@ -141,7 +143,6 @@ export function readJsonSync(filename, ingoreNonexisting = false) {
 	try {
 		res = JSON.parse(Deno.readTextFileSync(filename));
 	} catch (e) {
-		console.log(e.code);
 		if (e.code === 'ENOENT' && ingoreNonexisting) {
 			res = {};
 		} else {

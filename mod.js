@@ -153,6 +153,21 @@ export function readJsonSync(filename, ingoreNonexisting = false) {
 	return res;
 }
 
+export function writeJsonSync(data, filename, options = { format: false }) {
+	var text = JSON.stringify(data, null, options.format ? '\t' : 0);
+	filename.endsWith('.json') || (filename += '.json');
+	try {
+		Deno.writeTextFileSync(filename, text);
+	} catch (e) {
+		if (e.code === 'ENOENT') {
+			Deno.mkdirSync(filename.split('/').slice(0, -1).join('/'), { recursive: true });
+			Deno.writeTextFileSync(filename, text);
+		} else {
+			throw e;
+		}
+	}
+}
+
 export function isObject(s) {
 	return s && Object.getPrototypeOf(s) === Object.prototype;
 }

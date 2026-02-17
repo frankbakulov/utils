@@ -40,22 +40,25 @@ export function removeHTML(s) {
 
 export function argsToObject(args) {
 	var query = {};
-	args.forEach((arg) => {
-		var [k, v] = arg.split('=');
-		query[k] = v ?? true;
-	});
+	addQuery(query, new URLSearchParams(args.join('&')));
 	return query;
 }
 
-export function addQuery(query, params) {
+export function addQuery(query, params, toNumbers = true) {
 	[...params.keys()].forEach((key) => {
 		var value;
 
 		if (key.endsWith('[]')) {
 			value = params.getAll(key);
+			if (toNumbers && value.every(v => !isNaN(v))) {
+				value = value.map(v => +v);
+			}
 			key = key.slice(0, -2);
 		} else {
 			value = params.get(key);
+			if (toNumbers && !isNaN(value)) {
+				value = +value;
+			}
 		}
 
 		let x = key.match(/^(\w+)\[(\w+)\]$/);

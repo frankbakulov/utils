@@ -41,7 +41,7 @@ Deno.test({
 Deno.test({
 	name: 'argsToObject',
 	fn() {
-		assertObjectMatch(argsToObject(['a=1', 'b=2', 'c']), { a: '1', b: '2', c: true });
+		assertObjectMatch(argsToObject(['a=1', 'b=2a', 'c']), { a: 1, b: '2a', c: 0 });
 		assertObjectMatch(argsToObject([]), {});
 	},
 });
@@ -50,9 +50,9 @@ Deno.test({
 	name: 'addQuery',
 	fn() {
 		const query = {};
-		const params = new URLSearchParams('a=1&b[]=2&b[]=3&c[d]=4');
+		const params = new URLSearchParams('a=1&b[]=2&b[]=3&c[d]=4a');
 		addQuery(query, params);
-		assertObjectMatch(query, { a: '1', b: ['2', '3'], c: { d: '4' } });
+		assertObjectMatch(query, { a: 1, b: [2, 3], c: { d: '4a' } });
 	},
 });
 

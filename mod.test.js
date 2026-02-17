@@ -50,9 +50,12 @@ Deno.test({
 	name: 'addQuery',
 	fn() {
 		const query = {};
-		const params = new URLSearchParams('a=1&b[]=2&b[]=3&c[d]=4a');
+		var params = new URLSearchParams('a=1&b[]=2&b[]=3&c[d]=4a');
 		addQuery(query, params);
 		assertObjectMatch(query, { a: 1, b: [2, 3], c: { d: '4a' } });
+		params = { a: '1', 'b[2]': ['2', '3'], 'c[]': { d: '4a' } };
+		addQuery(query, params);
+		assertObjectMatch(query, { a: 1, b: {'2': ['2', '3']}, c: [{ d: '4a' }] });
 	},
 });
 

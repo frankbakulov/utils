@@ -45,6 +45,16 @@ export function argsToObject(args) {
 }
 
 export function addQuery(query, params, toNumbers = true) {
+	params.keys ||= function () {
+		return Object.keys(this);
+	};
+	params.get ||= function (key) {
+		return this[key];
+	};
+	params.getAll ||= function (key) {
+		return [this[key]];
+	};
+
 	[...params.keys()].forEach((key) => {
 		var value;
 

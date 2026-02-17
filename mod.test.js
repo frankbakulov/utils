@@ -100,6 +100,7 @@ Deno.test({
 Deno.test({
 	name: 'isObject',
 	fn() {
+		assert(isObject(new Response));
 		assert(isObject({}));
 		assert(isObject({ a: 1 }));
 		assertFalse(isObject([]));

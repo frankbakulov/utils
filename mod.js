@@ -66,6 +66,10 @@ export function addQuery(query, params, toNumbers = true) {
 			key = key.slice(0, -2);
 		} else {
 			value = params.get(key);
+
+			// removing polyfills
+			if (typeof value === 'function') return;
+			
 			if (toNumbers && !isNaN(value)) {
 				value = +value;
 			}

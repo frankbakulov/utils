@@ -60,7 +60,7 @@ export function addQuery(query, params, toNumbers = true) {
 
 		if (key.endsWith('[]')) {
 			value = params.getAll(key);
-			if (toNumbers && value.every(v => !isNaN(v))) {
+			if (toNumbers && value.every(v => !isNaN(v) && v !== '')) {
 				value = value.map(v => +v);
 			}
 			key = key.slice(0, -2);
@@ -69,8 +69,8 @@ export function addQuery(query, params, toNumbers = true) {
 
 			// removing polyfills
 			if (typeof value === 'function') return;
-			
-			if (toNumbers && !isNaN(value)) {
+
+			if (toNumbers && !isNaN(value) && value !== '') {
 				value = +value;
 			}
 		}

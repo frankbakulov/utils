@@ -1,6 +1,7 @@
 /* @ts-self-types="./mod.d.ts" */
 import * as util from 'node:util';
 import { escape, unescape } from '@std/html';
+import { existsSync } from '@std/fs/exists';
 
 export function alertTelegram(config, data, retry = true) {
 	var text = typeof data === 'string' ? data : JSON.stringify(util.inspect(
@@ -38,13 +39,13 @@ export function removeHTML(s) {
 	return unescape(s);
 }
 
-export function argsToObject(args) {
+export function argsToObject(args, stringFields = []) {
 	var query = {};
-	addQuery(query, new URLSearchParams(args.join('&')));
+	addQuery(query, new URLSearchParams(args.join('&')), stringFields);
 	return query;
 }
 
-export function addQuery(query, params, toNumbers = true) {
+export function addQuery(query, params, stringFields = []) {
 	params.keys ||= function () {
 		return Object.keys(this);
 	};
@@ -60,17 +61,17 @@ export function addQuery(query, params, toNumbers = true) {
 
 		if (key.endsWith('[]')) {
 			value = params.getAll(key);
-			if (toNumbers && value.every(v => !isNaN(v) && v !== '')) {
+			key = key.slice(0, -2);
+			if (!stringFields.includes(key) && value.every(v => !isNaN(v) && v !== '')) {
 				value = value.map(v => +v);
 			}
-			key = key.slice(0, -2);
 		} else {
 			value = params.get(key);
 
 			// removing polyfills
 			if (typeof value === 'function') return;
 
-			if (toNumbers && !isNaN(value) && value !== '') {
+			if (!stringFields.includes(key) && !isNaN(value) && value !== '') {
 				value = +value;
 			}
 		}
@@ -183,6 +184,14 @@ export function writeJsonSync(data, filename, options = { format: false }) {
 			throw e;
 		}
 	}
+}
+
+export function isDir(p) {
+	return existsSync(p) && Deno.statSync(p).isDirectory;
+}
+
+export function readDirSync(p) {
+	return existsSync(p) ? [...Deno.readDirSync(p)].map((file) => file.name + (file.isDirectory ? '/' : '')) : [];
 }
 
 export function isObject(s) {

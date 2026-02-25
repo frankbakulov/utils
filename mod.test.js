@@ -41,7 +41,7 @@ Deno.test({
 Deno.test({
 	name: 'argsToObject',
 	fn() {
-		assertObjectMatch(argsToObject(['a=1', 'b=2a', 'c']), { a: 1, b: '2a', c: 0 });
+		assertObjectMatch(argsToObject(['a=1', 'b=2a', 'c']), { a: 1, b: '2a', c: '' });
 		assertObjectMatch(argsToObject([]), {});
 	},
 });

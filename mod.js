@@ -221,12 +221,13 @@ export function resolveObject(obj) {
 }
 
 var ts = {};
-export function mt(label = '', reset = false) {
+export function mt(label = '', reset = false, returnNumber = false) {
 	var res = '', now = Date.now();
 
 	if (!reset) {
 		if (ts[label]) {
-			res = `${label} ${String((now - ts[label]) / 1000).padEnd(5, '0')}`.trim();
+			let passed = (now - ts[label]) / 1000;
+			res = returnNumber ? passed : `${label} ${String(passed).padEnd(5, '0')}`.trim();
 		}
 	}
 

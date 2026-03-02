@@ -222,16 +222,15 @@ export function resolveObject(obj) {
 
 var ts = {};
 export function mt(label = '', reset = false, returnNumber = false) {
-	var res = '', now = Date.now();
+	var passed = 0, now = Date.now();
 
 	if (!reset) {
 		if (ts[label]) {
-			let passed = (now - ts[label]) / 1000;
-			res = returnNumber ? passed : `${label} ${String(passed).padEnd(5, '0')}`.trim();
+			passed = (now - ts[label]) / 1000;
 		}
 	}
 
 	ts[label] = now;
 
-	return res;
+	return returnNumber ? passed : `${label} ${String(passed).padEnd(5, '0')}`.trim();
 }

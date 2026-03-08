@@ -198,6 +198,13 @@ export function isObject(s) {
 	return s && Object.getPrototypeOf(s) === Object.prototype;
 }
 
+export function is(s) {
+	return !s
+		|| Array.isArray(s) && !s.length
+		|| isObject(s) && !Object.keys(s).length
+		? false : true;
+}
+
 export function resolveObject(obj) {
 	var ps = [],
 		resolveValues = (obj) => {

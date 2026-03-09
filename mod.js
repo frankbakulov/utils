@@ -86,6 +86,12 @@ export function addQuery(query, params, stringFields = []) {
 	});
 }
 
+export function ucfirst(s) {
+	if (!s) return s;
+	const str = [...String(s)];
+	return str.slice(0, 1).join('').toUpperCase() + str.slice(1).join('');
+}
+
 export function randomString(length = 4, options = { case: 'lower', numbers: false, symbols: '' }) {
 	options.case ||= 'lower';
 

@@ -211,6 +211,10 @@ export function is(s) {
 		? false : true;
 }
 
+export function sleep(ms) {
+	return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 export function resolveObject(obj) {
 	var ps = [],
 		resolveValues = (obj) => {

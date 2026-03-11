@@ -10,7 +10,8 @@ import {
 	readJsonSync,
 	isObject,
 	resolveObject,
-	mt
+	mt,
+	sleep
 } from "./mod.js";
 import {
 	assert,
@@ -44,6 +45,17 @@ Deno.test({
 		assertObjectMatch(argsToObject(['a=1', 'b=2a', 'c']), { a: 1, b: '2a', c: '' });
 		assertObjectMatch(argsToObject([]), {});
 	},
+});
+
+Deno.test({
+	name: 'sleep',
+	fn() {
+		var now = new Date().getTime(), ms = 1000;
+		return sleep(ms).then(() => {
+			var then = new Date().getTime() - now;
+			assertAlmostEquals(then, ms, 100);
+		});
+	}
 });
 
 Deno.test({

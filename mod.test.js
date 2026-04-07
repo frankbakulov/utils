@@ -85,10 +85,39 @@ Deno.test({
 	fn() {
 		assert(eq(0, []));
 		assert(eq(0, {}));
-		assert(eq(0, ''));
+		assert(eq(undefined, ''));
 		assert(eq(null, {}));
 		assert(eq(1, '1'));
-		assert(eq({ a: 1, b: [1, 2, 3] }, { a: '1', b: [1, 2, 3] }));
+		assert(eq(
+			{
+				equipaje: 0,
+				is_emergencia: 0,
+				comment: "xzzzz!",
+				id_Destino: 48,
+				id_Chofer: null,
+				status: "recibido",
+				dt_start: "2026-04-09 12:02:00",
+				RidePaxParada: [
+					{ id_Parada: 39, id_Pax: 0, hora: "" },
+					{ id_Parada: 43, id_Pax: 0, hora: "" }
+				]
+			},
+			{
+				equipaje: 0,
+				is_emergencia: 0,
+				comment: "xzzzz!",
+				id_Destino: 48,
+				id_Chofer: null,
+				status: "recibido",
+				dt_start: "2026-04-09 12:02:00",
+				RidePaxParada: [
+					{ id_Parada: 39, id_Pax: 0, hora: undefined },
+					{ id_Parada: 43, id_Pax: 0, hora: "" }
+				]
+			}
+
+
+		));
 		assert(eq([1, 2, null], ['1', '2', {}]));
 	},
 });

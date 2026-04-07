@@ -121,10 +121,6 @@ export function randomString(length = 4, options = { case: 'lower', numbers: fal
 export function eq(v1, v2) {
 	if (v1 == v2 || !is(v1) && !is(v2)) return true;
 
-	if (!v1 && !v2) {
-		return v1 !== 0 && v2 !== 0;
-	}
-
 	if (typeof v1 !== typeof v2) return false;
 
 	if (Array.isArray(v1)) {
@@ -134,12 +130,8 @@ export function eq(v1, v2) {
 	if (Object.keys(v1).length != Object.keys(v2).length) return false;
 
 	for (const k1 in v1) {
-		if (typeof v1[k1] === 'object' && typeof v2[k1] === 'object') {
-			if (!eq(v1[k1], v2[k1])) return false;
-			continue;
-		}
-
-		if (v2[k1] === undefined || v1[k1] != v2[k1]) return false;
+		if (!eq(v1[k1], v2[k1])) return false;
+		continue;
 	}
 
 	return true;

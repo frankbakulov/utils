@@ -1,37 +1,81 @@
-export type Tquery = Record<string, any>;
-
-interface TelegramConfig {
-  host?: string;
-  telegram_bot: string;
-  telegram_alert_chat_id: string;
+export interface AlertTelegramConfig {
+    telegram_bot: string;
+    telegram_alert_chat_id: string | number;
+    host?: string;
 }
 
-interface RandomStringOptions {
-  case?: 'lower' | 'upper' | 'all';
-  numbers?: boolean;
-  symbols?: string;
+export interface RandomStringOptions {
+    case?: 'lower' | 'upper' | 'all';
+    numbers?: boolean;
+    symbols?: string;
 }
 
-export declare function alertTelegram(config: TelegramConfig, data: any, retry?: boolean): Promise<Response | false>;
+export function alertTelegram(
+    config: AlertTelegramConfig,
+    data: unknown,
+    retry?: boolean
+): Promise<Response | false>;
 
-export declare function removeHTML(s: any): string;
+export function removeHTML(s: unknown): string | 0;
 
-export declare function argsToObject(args: string[]): Tquery;
+export function argsToObject(
+    args: string[],
+    stringFields?: string[]
+): Record<string, unknown>;
 
-export declare function addQuery(query: Tquery, params: URLSearchParams | FormData): void;
+export function addQuery(
+    query: Record<string, unknown>,
+    params: URLSearchParams | Record<string, unknown>,
+    stringFields?: string[]
+): void;
 
-export declare function randomString(length?: number, options?: RandomStringOptions): string;
+export function ucfirst(s: unknown): unknown;
 
-export declare function eq(v1: any, v2: any): boolean;
+export function randomString(
+    length?: number,
+    options?: RandomStringOptions
+): string;
 
-export declare function objectDifferentKeys(o1: any, o2: any): string[];
+export function eq(v1: any, v2: any): boolean;
 
-export declare function objectUnion(obj: any, newObj: any): void;
+/**
+ * @description get keys with values that are different
+ */
+export function objectDifferentKeys(
+    o1: Record<string, unknown> | null | undefined,
+    o2: Record<string, unknown> | null | undefined
+): string[];
 
-export declare function readJsonSync(filename: string, ingoreNonexisting?: boolean): object;
+export function objectUnion(
+    obj: Record<string, unknown>,
+    newObj: unknown
+): void;
 
-export declare function isObject(s: any): boolean;
+export function readJsonSync(
+    filename: string,
+    ingoreNonexisting?: boolean
+): any;
 
-export declare function resolveObject(obj: object): Promise<object>;
+export function writeJsonSync(
+    data: unknown,
+    filename: string,
+    options?: { format?: boolean }
+): void;
 
-export declare function mt(label?: string, reset?: boolean): string;
+export function isDir(p: string): boolean;
+
+export function readDirSync(p: string): string[];
+
+export function isObject(s: unknown): s is Record<string, unknown>;
+
+export function is(s: unknown): boolean;
+
+export function sleep(ms: number): Promise<void>;
+
+export function resolveObject<T = any>(obj: T): Promise<T>;
+
+export function mt(
+    label?: string,
+    reset?: boolean,
+    returnNumber?: boolean
+): string | number;

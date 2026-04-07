@@ -127,14 +127,12 @@ export function eq(v1, v2) {
 		return v1.length === v2.length && v1.every((v, i) => eq(v, v2[i]));
 	}
 
-	if (Object.keys(v1).length != Object.keys(v2).length) return false;
-
-	for (const k1 in v1) {
-		if (!eq(v1[k1], v2[k1])) return false;
-		continue;
+	if (isObject(v1)) {
+		if (Object.keys(v1).length !== Object.keys(v2).length) return false;
+		return Object.keys(v1).every(k1 => eq(v1[k1], v2[k1]));
 	}
 
-	return true;
+	return false;
 }
 
 /**

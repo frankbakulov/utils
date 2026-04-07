@@ -83,14 +83,16 @@ Deno.test({
 Deno.test({
 	name: 'eq',
 	fn() {
+		assertFalse(eq(0, 1));
 		assert(eq(0, []));
 		assert(eq(0, {}));
 		assert(eq(undefined, ''));
 		assert(eq(null, {}));
 		assert(eq(1, '1'));
-		assert(eq(
+		assert(eq([1, 2, null], ['1', '2', {}]));
+		assertFalse(eq(
 			{
-				equipaje: 0,
+				equipaje: 1,
 				is_emergencia: 0,
 				comment: "xzzzz!",
 				id_Destino: 48,
@@ -98,8 +100,8 @@ Deno.test({
 				status: "recibido",
 				dt_start: "2026-04-09 12:02:00",
 				RidePaxParada: [
-					{ id_Parada: 39, id_Pax: 0, hora: "" },
-					{ id_Parada: 43, id_Pax: 0, hora: "" }
+					{ id_Parada: 40, id_Pax: 0, hora: "" },
+					{ id_Parada: 43, id_Pax: 0, hora: "1" }
 				]
 			},
 			{
@@ -111,14 +113,13 @@ Deno.test({
 				status: "recibido",
 				dt_start: "2026-04-09 12:02:00",
 				RidePaxParada: [
-					{ id_Parada: 39, id_Pax: 0, hora: undefined },
-					{ id_Parada: 43, id_Pax: 0, hora: "" }
+					{ id_Parada: 42, id_Pax: 0, hora: undefined },
+					{ id_Parada: 43, id_Pax: 0, hora: 1 }
 				]
 			}
 
 
 		));
-		assert(eq([1, 2, null], ['1', '2', {}]));
 	},
 });
 

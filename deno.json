@@ -1,6 +1,6 @@
 {
 	"name": "@frankbakulov/utils",
-	"version": "0.8.5",
+	"version": "0.8.6",
 	"license": "MIT",
 	"exports": "./mod.js",
 	"tasks": {
@@ -21,6 +21,6 @@
 	},
 	"imports": {
 		"@std/fs": "jsr:@std/fs@^1.0.23",
-		"@std/html": "jsr:@std/html@^1.0.5"
+		"@std/html": "jsr:@std/html@^1.0.6"
 	}
 }

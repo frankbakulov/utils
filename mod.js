@@ -71,7 +71,7 @@ export function addQuery(query, params, stringFields = []) {
 			// removing polyfills
 			if (typeof value === 'function') return;
 
-			if (!stringFields.includes(key) && !isNaN(value) && value !== '') {
+			if (!stringFields.includes(key) && !Array.isArray(value) && !isObject(value) && !isNaN(value) && value !== '') {
 				value = +value;
 			}
 		}

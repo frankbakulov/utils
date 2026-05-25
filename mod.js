@@ -5,10 +5,11 @@ import { existsSync } from '@std/fs/exists';
 
 export function alertTelegram(config, data, retry = true) {
 	var text = typeof data === 'string' ? data : JSON.stringify(util.inspect(
-		data instanceof Error ? (data.stack || data.message) : data, false, 999));
+		data instanceof Error ? (data.stack || data.message) : data, false, 999)),
+		maxlength = 3500; // telegram limit is 4096
 
-	if (text.length > 600) {
-		text = escape(removeHTML(text).slice(0, 600));
+	if (text.length > maxlength) {
+		text = escape(removeHTML(text).slice(0, maxlength));
 	}
 
 	return fetch(config.telegram_bot, {
@@ -22,7 +23,7 @@ export function alertTelegram(config, data, retry = true) {
 			text: (config.host ?? 'unknown host') + ' - ' + text,
 		})
 	}).then(r => {
-		return r.ok ? r : (retry ? alertTelegram(config, `error sending alert text ${text.slice(0, 50)}, ${JSON.stringify(r)}`, false) : false);
+		return r.ok ? r : (retry ? alertTelegram(config, `error sending alert text ${text}, ${JSON.stringify(r)}`, false) : false);
 	});
 }
 

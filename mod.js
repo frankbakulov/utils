@@ -236,6 +236,26 @@ export function resolveObject(obj) {
 	return Promise.all(ps).then(() => obj);
 }
 
+export function deepAssign(target, ...sources) {
+	if (!sources.length) return target;
+	const source = sources.shift();
+
+	if (isObject(target) && isObject(source)) {
+		for (const key in source) {
+			if (Object.prototype.hasOwnProperty.call(source, key)) {
+				if (isObject(source[key])) {
+					if (!target[key]) Object.assign(target, { [key]: {} });
+					deepAssign(target[key], source[key]);
+				} else {
+					Object.assign(target, { [key]: source[key] });
+				}
+			}
+		}
+	}
+
+	return deepAssign(target, ...sources);
+}
+
 var ts = {};
 export function mt(label = '', reset = false, returnNumber = false) {
 	var passed = 0, now = Date.now();

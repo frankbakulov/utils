@@ -19,10 +19,11 @@ export function alertTelegram(config, data, retry = true) {
 		},
 		body: JSON.stringify({
 			chat_id: config.telegram_alert_chat_id,
-			parse_mode: 'HTML',
+			// parse_mode: 'HTML',
 			text: (config.host ?? 'unknown host') + ' - ' + text,
 		})
 	}).then(r => {
+		r.text().then(console.log)
 		return r.ok ? r : (retry ? alertTelegram(config, `error sending alert text ${text}, ${JSON.stringify(r)}`, false) : false);
 	});
 }

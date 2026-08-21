@@ -18,6 +18,7 @@ export function alertTelegram(config, data, retry = true) {
 			'Content-Type': 'application/json',
 		},
 		body: JSON.stringify({
+			link_preview_options: { is_disabled: true },
 			chat_id: config.telegram_alert_chat_id,
 			text: (config.host ?? 'unknown host') + ' - ' + text,
 		})

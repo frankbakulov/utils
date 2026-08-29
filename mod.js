@@ -41,8 +41,13 @@ export function removeHTML(s) {
 }
 
 export function argsToObject(args, stringFields = []) {
-	var query = {};
-	addQuery(query, new URLSearchParams(args.join('&')), stringFields);
+	var query = {}, params = {};
+	args.forEach(a => {
+		var k = a.split('=');
+		params[k[0]] = k[1];
+	});
+
+	addQuery(query, params, stringFields);
 	return query;
 }
 

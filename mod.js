@@ -44,7 +44,7 @@ export function argsToObject(args, stringFields = []) {
 	var query = {}, params = {};
 	args.forEach(a => {
 		var k = a.split('=');
-		params[k[0]] = k[1];
+		params[k[0]] = k[1] ?? '';
 	});
 
 	addQuery(query, params, stringFields);
@@ -122,6 +122,31 @@ export function randomString(length = 4, options = { case: 'lower', numbers: fal
 	}
 
 	return result;
+}
+
+export function POSTjson(body, url, headers = {}) {
+	return fetch(url, {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+			Accept: 'application/json',
+			...headers,
+		},
+		body: JSON.stringify(body),
+		signal: AbortSignal.timeout(10000),
+	}).then(r => {
+		if (!r.ok) {
+			throw new Error(`HTTP ${r.status}`);
+		}
+
+		return r.text().then(result => {
+			var res = result;
+			try {
+				res = JSON.parse(res);
+			} catch { };
+			return res;
+		});
+	});
 }
 
 export function eq(v1, v2) {

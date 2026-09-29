@@ -1,4 +1,5 @@
 import {
+	POSTjson,
 	alertTelegram,
 	removeHTML,
 	argsToObject,
@@ -163,6 +164,24 @@ Deno.test({
 		};
 		const resolved = await resolveObject(obj);
 		assertObjectMatch(resolved, { a: 1, b: { c: 2 }, d: [3] });
+	},
+});
+
+Deno.test({
+	name: "POSTjson",
+	async fn() {
+		const body = {
+			title: "Test post",
+			body: "Created by POSTjson test",
+			userId: 1,
+		};
+
+		const result = await POSTjson(body, "https://jsonplaceholder.typicode.com/posts");
+
+		assertEquals(result.title, body.title);
+		assertEquals(result.body, body.body);
+		assertEquals(result.userId, body.userId);
+		assertExists(result.id);
 	},
 });
 

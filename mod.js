@@ -125,6 +125,7 @@ export function randomString(length = 4, options = { case: 'lower', numbers: fal
 }
 
 export function POSTjson(body, url, headers = {}) {
+	body = JSON.stringify(body);
 	return fetch(url, {
 		method: 'POST',
 		headers: {
@@ -132,11 +133,12 @@ export function POSTjson(body, url, headers = {}) {
 			Accept: 'application/json',
 			...headers,
 		},
-		body: JSON.stringify(body),
+		body,
 		signal: AbortSignal.timeout(10000),
 	}).then(r => {
+		
 		if (!r.ok) {
-			throw new Error(`HTTP ${r.status}`);
+			throw new Error(`${url}: ${r.status}, body: ${body}`);
 		}
 
 		return r.text().then(result => {

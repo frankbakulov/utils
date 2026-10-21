@@ -52,6 +52,8 @@ export function argsToObject(args, stringFields = []) {
 }
 
 export function addQuery(query, params, stringFields = []) {
+	stringFields.push('password', 'passwordMatch');
+
 	params.keys ||= function () {
 		return Object.keys(this);
 	};
@@ -124,7 +126,7 @@ export function randomString(length = 4, options = { case: 'lower', numbers: fal
 	return result;
 }
 
-export function POSTjson(body, url, headers = {}) {
+export function POSTjson(body, url, headers = {}, timeout = 10000) {
 	body = JSON.stringify(body);
 	return fetch(url, {
 		method: 'POST',
@@ -134,9 +136,9 @@ export function POSTjson(body, url, headers = {}) {
 			...headers,
 		},
 		body,
-		signal: AbortSignal.timeout(10000),
+		signal: timeout ? AbortSignal.timeout(timeout) : null,
 	}).then(r => {
-		
+
 		if (!r.ok) {
 			throw new Error(`${url}: ${r.status}, body: ${body}`);
 		}

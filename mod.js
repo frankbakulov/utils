@@ -138,7 +138,6 @@ export function POSTjson(body, url, headers = {}, timeout = 10000) {
 		body,
 		signal: timeout ? AbortSignal.timeout(timeout) : null,
 	}).then(r => {
-
 		if (!r.ok) {
 			throw new Error(`${url}: ${r.status}, body: ${body}`);
 		}
@@ -150,6 +149,8 @@ export function POSTjson(body, url, headers = {}, timeout = 10000) {
 			} catch { };
 			return res;
 		});
+	}).catch(e => {
+		throw new Error(`${e.message}, ${JSON.stringify({ url, body, headers, timeout })}`);
 	});
 }
 
